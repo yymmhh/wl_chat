@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="GBK">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>QQ</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://p7h441d6x.bkt.clouddn.com/vue.js"></script>
+
+    <style>
+        .wl_right{
+            margin-left: 120px;
+        }
+        .wl_input{
+            border: 1px solid #87f8ff;
+            height: 70px;
+            border-radius:25px;-moz-border-radius:25px;
+
+        }
+
+        .wl_one,.wl_two{
+            float:left;
+            margin-left: 30px;
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+
+</body>
+<div id="app">
+
+
+
+    <div style="border: 0px solid red;height: 620px;overflow: auto;padding-bottom: 60px;
+" id="zhu">
+        <div  style="margin-top: 10px; border:0px solid;
+            border-radius:25px;-moz-border-radius:25px;width: 70%;height: 50px;
+            padding: 10px;background-color: rgba(160,160,160,0.62);"
+            v-bind:class="[id== item.id ? 'wl_right' : '']"
+              id="context"
+              v-for="item in list">
+        <img :src="item.tou" style="width:30px; height:30px; border-radius:50%; overflow:hidden;">
+            <span style="color: #0AA5DF">{{item.id}}</span>
+            <span >{{item.text}}</span>
+
+            <br/>
+        </div>
+
+
+    </div>
+
+
+    <!--底部-->
+        <div style=" height:30px;
+        position:fixed;
+        bottom:20px;
+        z-index:-1;  ">
+            <!--<input type="text" v-model="context" id="nei" class="wl_input" style="width: 200px;">-->
+
+            <!--<button class="btn btn-info btn-lg" onclick=""-->
+            <!--&gt;发送{{id}}</button>-->
+
+            <div class="form-group">
+
+                <div class="wl_one" style="border: 0px solid;">
+                    <input type="text" v-model="context" class="form-control"  placeholder="请输入想要射的内容">
+
+                </div>
+
+                <button class="btn btn-info  wl_two" id="btn">射{{id}}</button>
+            </div>
+
+        </div>
+</div>
+
+
+<script>
+
+    $(function () {
+        // $(".wl_two").click(function () {
+        //     var now = new Date();
+        //
+        //     div.innerHTML = div.innerHTML + 'time_' + now.getTime() + '<br />';
+        //
+        // })
+
+        // $(".form-control").keypress(function(event){
+        //     if(event.which === 13) {
+        //         //点击回车要执行的事件
+        //         console.log("123");
+        //     }else{
+        //         console.log("asd");
+        //     }
+        // });
+
+    })
+
+</script>
+<script>
+
+
+    var app=new Vue({
+        el:"#app",
+        data:{
+            title:"QQ",
+            tou:"http://p7h441d6x.bkt.clouddn.com/",
+            now:"",
+            context:"",
+            isRight:false,
+            id:3,
+            list:[
+
+
+
+            ],
+            temp:{id:1,text:""},
+
+        },
+
+        mounted(){
+
+            var num=Math.floor(Math.random()*10+1);
+            console.log(num);
+            this.now=this.tou+"qq"+num+".jpg";
+            console.log(this.now);
+            var templist=[{id:1,text:"123123"}];
+            var wsServer = 'ws://122.114.185.73:8811';
+            //调用websocket对象建立连接：
+            //参数：ws/wss(加密)：//ip:port （字符串）
+            var websocket = new WebSocket(wsServer);
+            //onopen监听连接打开
+            console.log("开始加载~");
+
+            websocket.onopen = function (evt) {
+
+                console.log("链接成功！");
+            };
+
+
+            $(".form-control").keypress(function(event){
+                if(event.which === 13) {
+
+                    var zhi=app.sendData();
+
+
+                    console.log(zhi);
+                    websocket.send(zhi);
+                    var div = document.getElementById('zhu');
+                    div.scrollTop = div.scrollHeight;
+                }else{
+
+                }
+            });
+
+
+
+            $(".wl_two").click(function () {
+
+                 var zhi=app.sendData();
+
+
+                 console.log(zhi);
+                websocket.send(zhi);
+                var div = document.getElementById('zhu');
+                div.scrollTop = div.scrollHeight;
+            })
+            websocket.onmessage = function (evt) {
+                console.log(evt.data);
+                var temp=evt.data;
+                app.go1(temp);
+                var div = document.getElementById('zhu');
+                div.scrollTop = div.scrollHeight;
+
+            };
+
+
+
+
+    },
+
+        methods:{
+
+            go1(temp1){
+
+
+                temp1=JSON.parse(temp1);
+                let type=temp1.type;
+
+                if(type=="id"){
+                    this.id=temp1.id;
+                }else  if(type=="data"){
+                    this.temp={id:temp1.id,tou:temp1.tou,text:temp1.context};
+                    this.list.push(this.temp);
+
+                    this.temp={id:1,text:""};
+                    this.context="";
+                }
+
+            },
+
+
+            sendData(){
+
+                var arr=new Array();
+                arr.push(this.id);
+                arr.push(this.context);
+                arr.push(this.now);
+                arr= JSON.stringify(arr);
+                return arr;
+
+
+            }
+        }
+
+    })
+
+
+
+
+
+</script>
+</html>
