@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="GBK">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>QQ</title>
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -37,16 +37,16 @@
 
 
 
-    <div style="border: 0px solid red;height: 620px;overflow: auto;padding-bottom: 60px;
+    <div style="border: 1px solid black;height: 500px;overflow: auto;padding-bottom: 60px;
 " id="zhu">
         <div  style="margin-top: 10px; border:0px solid;
             border-radius:25px;-moz-border-radius:25px;width: 70%;height: 50px;
             padding: 10px;background-color: rgba(160,160,160,0.62);"
-            v-bind:class="[id== item.id ? 'wl_right' : '']"
+              v-bind:class="[id== item.id ? 'wl_right' : '']"
               id="context"
               v-for="item in list">
-        <img :src="item.tou" style="width:30px; height:30px; border-radius:50%; overflow:hidden;">
-            <span style="color: #0AA5DF">{{item.id}}</span>
+            <img :src="item.tou" style="width:30px; height:30px; border-radius:50%; overflow:hidden;">
+            <span style="color: #0AA5DF">{{item.name}}</span>
             <span >{{item.text}}</span>
 
             <br/>
@@ -56,52 +56,30 @@
     </div>
 
 
-    <!--µ◊≤ø-->
-        <div style=" height:30px;
+
+    <!--Â∫ïÈÉ®-->
+    <div style=" height:30px;background-color: rgba(165,171,161,0.57);
         position:fixed;
-        bottom:20px;
-        z-index:-1;  ">
-            <!--<input type="text" v-model="context" id="nei" class="wl_input" style="width: 200px;">-->
+        bottom:0px;width: 100%;
+        height: 7%;
 
-            <!--<button class="btn btn-info btn-lg" onclick=""-->
-            <!--&gt;∑¢ÀÕ{{id}}</button>-->
+        z-index:11; border: 0px solid red ">
 
-            <div class="form-group">
+        <div class="form-group"style="margin-top: 2%;">
 
-                <div class="wl_one" style="border: 0px solid;">
-                    <input type="text" v-model="context" class="form-control"  placeholder="«Î ‰»ÎœÎ“™…‰µƒƒ⁄»›">
+            <div class="wl_one" style="border: 0px solid;">
+                <input type="text" v-model="context" class="form-control"  placeholder="ËØ∑ËæìÂÖ•ÊÉ≥Ë¶ÅSendÁöÑÂÜÖÂÆπ">
 
-                </div>
-
-                <button class="btn btn-info  wl_two" id="btn">…‰{{id}}</button>
             </div>
 
+            <button class="btn btn-info  wl_two" id="btn">Send{{id}}</button>
         </div>
+
+    </div>
 </div>
 
 
-<script>
 
-    $(function () {
-        // $(".wl_two").click(function () {
-        //     var now = new Date();
-        //
-        //     div.innerHTML = div.innerHTML + 'time_' + now.getTime() + '<br />';
-        //
-        // })
-
-        // $(".form-control").keypress(function(event){
-        //     if(event.which === 13) {
-        //         //µ„ª˜ªÿ≥µ“™÷¥––µƒ ¬º˛
-        //         console.log("123");
-        //     }else{
-        //         console.log("asd");
-        //     }
-        // });
-
-    })
-
-</script>
 <script>
 
 
@@ -113,6 +91,7 @@
             now:"",
             context:"",
             isRight:false,
+            name:"",
             id:3,
             list:[
 
@@ -125,21 +104,42 @@
 
         mounted(){
 
+
+            var name,value;
+            var str=location.href; //ÂèñÂæóÊï¥‰∏™Âú∞ÂùÄÊ†è
+            var num=str.indexOf("?")
+
+            str=str.substr(num+1); //ÂèñÂæóÊâÄÊúâÂèÇÊï∞   stringvar.substr(start [, length ]
+
+            var arr=str.split("&"); //ÂêÑ‰∏™ÂèÇÊï∞ÊîæÂà∞Êï∞ÁªÑÈáå
+            console.log(arr);
+            if(arr[0].length>30){
+                location.href="login.html";
+            }
+
+            this.id=arr[0].substr(3);
+            this.name=arr[1].substr(5);
+
+             this.name=decodeURIComponent(this.name);
+            console.log(this.name);
+            console.log(this.id);
+
+
             var num=Math.floor(Math.random()*10+1);
             console.log(num);
             this.now=this.tou+"qq"+num+".jpg";
             console.log(this.now);
             var templist=[{id:1,text:"123123"}];
-            var wsServer = 'ws://122.114.185.73:8811';
-            //µ˜”√websocket∂‘œÛΩ®¡¢¡¨Ω”£∫
-            //≤Œ ˝£∫ws/wss(º”√‹)£∫//ip:port £®◊÷∑˚¥Æ£©
+            var wsServer = 'ws://118.25.108.136:8811';
+            //Ë∞ÉÁî®websocketÂØπË±°Âª∫Á´ãËøûÊé•Ôºö
+            //ÂèÇÊï∞Ôºöws/wss(Âä†ÂØÜ)Ôºö//ip:port ÔºàÂ≠óÁ¨¶‰∏≤Ôºâ
             var websocket = new WebSocket(wsServer);
-            //onopenº‡Ã˝¡¨Ω”¥Úø™
-            console.log("ø™ ºº”‘ÿ~");
+            //onopenÁõëÂê¨ËøûÊé•ÊâìÂºÄ
+            console.log("ÂºÄÂßãÂä†ËΩΩ~");
 
             websocket.onopen = function (evt) {
 
-                console.log("¡¥Ω”≥…π¶£°");
+                console.log("ÈìæÊé•ÊàêÂäüÔºÅ");
             };
 
 
@@ -162,13 +162,14 @@
 
             $(".wl_two").click(function () {
 
-                 var zhi=app.sendData();
+                var zhi=app.sendData();
 
 
-                 console.log(zhi);
+                console.log(zhi);
                 websocket.send(zhi);
                 var div = document.getElementById('zhu');
                 div.scrollTop = div.scrollHeight;
+                app.clearContext();
             })
             websocket.onmessage = function (evt) {
                 console.log(evt.data);
@@ -182,7 +183,7 @@
 
 
 
-    },
+        },
 
         methods:{
 
@@ -193,13 +194,27 @@
                 let type=temp1.type;
 
                 if(type=="id"){
-                    this.id=temp1.id;
+                    // this.id=temp1.id;
+                    var redis=temp1.redis;
+
+                    let temparr=new Array();
+                    redis.forEach(function(value,index,array){
+                        let tempData={id:value.id,tou:value.tou,text:value.context,name:value.name};
+                        temparr.push(tempData);
+
+                    });
+                    console.log(temparr);
+                    this.list=temparr;
+
                 }else  if(type=="data"){
-                    this.temp={id:temp1.id,tou:temp1.tou,text:temp1.context};
+                    this.temp={id:temp1.id,tou:temp1.tou,text:temp1.context,name:temp1.name};
                     this.list.push(this.temp);
 
                     this.temp={id:1,text:""};
                     this.context="";
+                }else if(type=="redis"){
+                    console.log("Âä†ËΩΩRedis‰∫Ü");
+//                 	console.log(temp1);
                 }
 
             },
@@ -209,12 +224,21 @@
 
                 var arr=new Array();
                 arr.push(this.id);
+
                 arr.push(this.context);
                 arr.push(this.now);
+
+                arr.push(this.name);
                 arr= JSON.stringify(arr);
                 return arr;
 
 
+            },
+
+            clearContext()
+
+            {
+                this.context="";
             }
         }
 
@@ -223,6 +247,28 @@
 
 
 
+
+</script>
+<script>
+
+    $(function () {
+
+        $("#test").click(function(){
+
+            var div = document.getElementById('zhu');
+            div.scrollTop = div.scrollHeight;
+
+        })
+        setTimeout(
+
+            function(){
+                var div = document.getElementById('zhu');
+                div.scrollTop = div.scrollHeight;
+
+            }, 100 )
+
+
+    })
 
 </script>
 </html>

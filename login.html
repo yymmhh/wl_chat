@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>QQ</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://p7h441d6x.bkt.clouddn.com/vue.js"></script>
+
+    <style>
+
+
+
+
+
+    </style>
+</head>
+<body>
+
+</body>
+<div id="app">
+
+
+
+
+    <div class="container">
+        <div class="jumbotron">
+            <h2>填写信息加入聊天</h2>
+            <!-- 按钮触发模态框 -->
+            <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                继续填写
+            </button>
+        </div>
+    </div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label >随便起一个标识ID</label>
+                        <input type="text" class="form-control"  v-model="id" placeholder="请输入">
+                    </div>
+                    <div class="form-group">
+                        <label for=>聊天名称</label>
+                        <input type="text" class="form-control"  v-model="name" placeholder="请输入">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" @click="wl_sui()">一键随机</button>
+
+                    <button type="button" class="btn btn-primary" @click="wl_go()">
+                        进入聊天
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+
+
+
+<script>
+
+
+    var app=new Vue({
+        el:"#app",
+        data:{
+            name:"",
+            id:"",
+
+        },
+
+        mounted(){
+
+
+
+                // for(var i=0;i < arr.length;i++){
+                //     num=arr[i].indexOf("=");
+                //     if(num>0){
+                //         name=arr[i].substring(0,num);
+                //         value=arr[i].substr(num+1);
+                //         this[name]=value;
+                //     }
+                // }
+
+
+
+
+        },
+
+        methods:{
+
+            wl_sui()
+            {
+                let num=Math.floor(Math.random()*9999+1);
+                this.id=num;
+                var familyNames = new Array(
+                    "赵", "钱", "孙", "李", "周", "吴", "郑", "王", "冯", "陈",
+                    "褚", "卫", "蒋", "沈", "韩", "杨", "朱", "秦", "尤", "许",
+                    "何", "吕", "施", "张", "孔", "曹", "严", "华", "金", "魏",
+                    "陶", "姜", "戚", "谢", "邹", "喻", "柏", "水", "窦", "章",
+                    "云", "苏", "潘", "葛", "奚", "范", "彭", "郎", "鲁", "韦",
+                    "昌", "马", "苗", "凤", "花", "方", "俞", "任", "袁", "柳",
+                    "酆", "鲍", "史", "唐", "费", "廉", "岑", "薛", "雷", "贺",
+                    "倪", "汤", "滕", "殷", "罗", "毕", "郝", "邬", "安", "常",
+                    "乐", "于", "时", "傅", "皮", "卞", "齐", "康", "伍", "余",
+                    "元", "卜", "顾", "孟", "平", "黄", "和", "穆", "萧", "尹"
+                );
+                var givenNames = new Array(
+                    "子璇", "淼", "国栋", "夫子", "瑞堂", "甜", "敏", "尚", "国贤", "贺祥", "晨涛",
+                    "昊轩", "易轩", "益辰", "益帆", "益冉", "瑾春", "瑾昆", "春齐", "杨", "文昊",
+                    "东东", "雄霖", "浩晨", "熙涵", "溶溶", "冰枫", "欣欣", "宜豪", "欣慧", "建政",
+                    "美欣", "淑慧", "文轩", "文杰", "欣源", "忠林", "榕润", "欣汝", "慧嘉", "新建",
+                    "建林", "亦菲", "林", "冰洁", "佳欣", "涵涵", "禹辰", "淳美", "泽惠", "伟洋",
+                    "涵越", "润丽", "翔", "淑华", "晶莹", "凌晶", "苒溪", "雨涵", "嘉怡", "佳毅",
+                    "子辰", "佳琪", "紫轩", "瑞辰", "昕蕊", "萌", "明远", "欣宜", "泽远", "欣怡",
+                    "佳怡", "佳惠", "晨茜", "晨璐", "运昊", "汝鑫", "淑君", "晶滢", "润莎", "榕汕",
+                    "佳钰", "佳玉", "晓庆", "一鸣", "语晨", "添池", "添昊", "雨泽", "雅晗", "雅涵",
+                    "清妍", "诗悦", "嘉乐", "晨涵", "天赫", "玥傲", "佳昊", "天昊", "萌萌", "若萌"
+                );
+
+                let xin=Math.floor(Math.random()*100);
+                let ming=Math.floor(Math.random()*100);
+                let  name=familyNames[xin]+givenNames[ming];
+                this.name=name;
+                // console.log();
+            },
+
+
+
+             wl_go()
+            {
+                location.href="index.html?id="+this.id+"&name="+this.name;
+            }
+
+
+        }
+
+    })
+
+
+
+
+
+</script>
+<script>
+
+    $(function () {
+
+
+
+    })
+
+</script>
+</html>
